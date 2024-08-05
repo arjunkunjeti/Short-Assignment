@@ -1,3 +1,6 @@
+#pip install PyMuPDF python-docx pandas
+
+
 import json
 import re
 import fitz  # PyMuPDF
