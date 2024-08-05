@@ -1,0 +1,70 @@
+Intial prompt given to GPT is
+"Consider yourself as an expert in programming and help me in solving the assignment. 
+Now the task is to write a python script which can take resume as input and gives the output in JSON format. "
+
+The answer by GPT is :
+
+import json
+import re
+
+def parse_resume(text):
+    # Define regex patterns to extract information
+    patterns = {
+        'name': r'Name:\s*(.*)',
+        'email': r'Email:\s*(.*)',
+        'phone': r'Phone:\s*(.*)',
+        'address': r'Address:\s*(.*)',
+        'education': r'Education:\n((?:- .*\n)*)',
+        'experience': r'Experience:\n((?:- .*\n)*)',
+        'skills': r'Skills:\n((?:- .*\n)*)'
+    }
+    
+    resume_data = {}
+    
+    for key, pattern in patterns.items():
+        match = re.search(pattern, text)
+        if match:
+            if key in ['education', 'experience', 'skills']:
+                # Split multi-line entries into a list
+                resume_data[key] = [line.strip('- ') for line in match.group(1).strip().split('\n')]
+            else:
+                resume_data[key] = match.group(1).strip()
+    
+    return resume_data
+
+# Sample resume text
+resume_text = """
+Name: John Doe
+Email: john.doe@example.com
+Phone: 123-456-7890
+Address: 123 Main St, Anytown, USA
+
+Education:
+- B.S. in Computer Science, Anytown University, 2020
+
+Experience:
+- Software Developer at TechCorp, 2020-2023
+- Intern at WebSolutions, 2019
+
+Skills:
+- Python
+- Java
+- C++
+"""
+
+# Parse the resume
+parsed_resume = parse_resume(resume_text)
+
+# Convert to JSON
+resume_json = json.dumps(parsed_resume, indent=4)
+
+# Output JSON
+print(resume_json)
+
+
+Second Prompt is 
+"improvise the code for multiple type of input formats lie pdf,docx,csv".
+
+The improvised code from GPT is uploded in "resume_parser.py" file.
+
+
